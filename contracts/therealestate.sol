@@ -12,7 +12,7 @@ contract TheRealEstate is Owner {
  
  uint8 commissionPercent = 10;
  
- event NewToken(uint zombieId, string name, string adress, uint16 price, string imageLink);
+ event NewToken(uint tokenId, string name, string adress, uint16 price, string imageLink);
  
  struct Token{
      string name;
