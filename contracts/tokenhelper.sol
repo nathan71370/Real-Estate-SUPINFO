@@ -30,12 +30,23 @@ contract TokenHelper is TheRealEstate {
         commissionPercent = _newCommision;
     }
     
-    
     function getTokensByOwner(address _owner) external view returns(uint[] memory) {
         uint[] memory result = new uint[](ownerTokenCount[_owner]);
         uint counter = 0;
         for (uint i = 0; i < tokens.length; i++) {
           if (tokenToOwner[i] == _owner) {
+            result[counter] = i;
+            counter++;
+          }
+        }
+        return result;
+    }
+
+    function getTokensOnSaleByOwner(address _owner) external view returns(uint[] memory) {
+        uint[] memory result = new uint[](ownerTokenOnSaleCount[_owner]);
+        uint counter = 0;
+        for (uint i = 0; i < tokens.length; i++) {
+          if (tokenOnSaleToOwner[i] == _owner) {
             result[counter] = i;
             counter++;
           }

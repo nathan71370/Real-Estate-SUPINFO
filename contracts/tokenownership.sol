@@ -24,9 +24,13 @@ contract TokenOwnership is TokenHelper, ERC721 {
         tokenToOwner[_tokenId] = _to;
         emit Transfer(_from, _to, _tokenId);
     }
+
+    function putTokenToSale(address _owner, uint256 _tokenId) external onlyOwnerOf(_tokenId) {
+        tokenOnSaleToOwner[_tokenId] = _owner;
+    }
     
-    function buyToken() external {
-        
+    function removeTokenFromSale(uint256 _tokenId) external onlyOwnerOf(_tokenId) {
+        delete tokenOnSaleToOwner[_tokenId];
     }
     
     function _transferFrom(address _from, address _to, uint256 _tokenId) external payable {
