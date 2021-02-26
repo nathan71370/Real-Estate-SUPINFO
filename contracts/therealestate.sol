@@ -5,13 +5,14 @@ import "./owner.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol";
 
 
-
+/// @title A contract to sell houses via token ERC-721
 contract TheRealEstate is Owner {
 
     using SafeMath for uint256;
  
  uint8 commissionPercent = 10;
  
+ //Event that is triggered when a new token is created
  event NewToken(uint tokenId, string name, string adress, uint16 price, string imageLink);
  
  struct Token{
@@ -33,6 +34,7 @@ contract TheRealEstate is Owner {
         _;
       }
  
+ //Function to create a token 
     function _createToken(string memory _name, string memory _adress, uint16 _price, string memory _imageLink) public {
         tokens.push(Token(_name, _adress, _price, _imageLink));
         uint id = tokens.length - 1;
