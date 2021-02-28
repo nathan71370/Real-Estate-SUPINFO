@@ -2,24 +2,22 @@ var web3js;
 var theRealEstate;
 var userAccount;
 
-function startApp() {
+async function startApp() {
+    await loadMetamask()
     var theRealEstateAddress = "0x195Ebee58c65B932FC979E0ff562B38B23b99e8A";
     theRealEstate = new web3js.eth.Contract(theRealEstateABI, theRealEstateAddress);
     $("#txStatus").text("Account : " + userAccount);
-    console.log("test1");
     var accountInterval = setInterval(function () {
         // Check if account has changed
         if (web3js.eth.accounts[0] !== undefined && web3js.eth.accounts[0] !== userAccount) {
             userAccount = web3js.eth.accounts[0];
             // Call a function to update the UI with the new account
-            console.log("account : " + userAccount);
             getTokensByOwner(userAccount)
                 .then(displayTokens);
         }
     }, 100);
 
     // Start here
-    console.log("account : " + userAccount)
     getTokensByOwner(userAccount)
                 .then(displayTokens);
 }
@@ -94,7 +92,7 @@ function getTokensOnSaleByOwner(owner) {
 async function loadMetamask() {
     userAccount = await window.ethereum.request({ method: 'eth_requestAccounts' });
     web3js.eth.accounts[0] = userAccount;
-    console.log("account caca : " + userAccount);
+    web3js.eth.defaultAccount = "0x195Ebee58c65B932FC979E0ff562B38B23b99e8A";
     $("#txStatus").text("Account : " + userAccount);
 }
 
@@ -105,7 +103,7 @@ window.addEventListener('load', function () {
     if (window.ethereum) {
        web3js = new Web3(window.ethereum);
        try { 
-            loadMetamask()
+            startApp();
               // User has allowed account access to DApp...
 
        } catch(e) {
@@ -115,6 +113,7 @@ window.addEventListener('load', function () {
     // Legacy DApp Browsers
     else if (window.web3) {
         web3 = new Web3(web3.currentProvider);
+        startApp();
     }
     // Non-DApp Browsers
     else {
@@ -122,5 +121,5 @@ window.addEventListener('load', function () {
     }
 
     // Now you can start your app & access web3 freely:
-    startApp();
+    
 })
