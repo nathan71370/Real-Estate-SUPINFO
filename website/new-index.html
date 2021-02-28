@@ -92,6 +92,49 @@
         </div>
     </div>
 
+    <!-- EDIT SECTION -->
+    <div class="bg-light p-5" id="edit-section" style="display:none;">
+        <div class="container">
+
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <form>
+                    <input type="hidden" value="" class="edit-id" />
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="edit-name">Nom</label>
+                        <input type="text" class="form-control" placeholder="Nom" name="name" id="edit-name"/>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="edit-address">Adresse</label>
+                        <input type="text" class="form-control" placeholder="Adresse" name="address" id="edit-address"/>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="edit-price">Prix (Ethereum)</label>
+                        <input type="number" class="form-control" name="price" id="edit-price" value="0.1" min="0"
+                               step="0.1"/>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="edit-image">Image</label>
+                        <input type="text" class="form-control" placeholder="Lien image" name="image" id="edit-image"/>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="edit-description">Description</label>
+                        <textarea class="form-control" placeholder="Un beau bien, placé idéalement en plein sud..."
+                                  id="edit-description"></textarea>
+                    </div>
+
+                    <div class="form-group row">
+                        <button type="button" id="edit-asset-button" class="btn btn-success">Modifier le bien</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
     <!-- MARKET SECTION -->
     <div class="album py-5 bg-light" id="market-section" style="display:none;">
         <div class="container">
@@ -146,6 +189,7 @@
                             <p class="card-text description">Description</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary edit-button">Editer</button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary remove-button">Retirer de la vente</button>
                                 </div>
                                 <small class="text-muted"><span class="price">0</span> Ethereum</small>
@@ -170,6 +214,7 @@
                             <p class="card-text description">Description</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary edit-button">Editer</button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary sell-button">Vendre</button>
                                 </div>
                                 <small class="text-muted"><span class="price">0</span> Ethereum</small>
@@ -206,7 +251,7 @@
 
 <!-- Solidity -->
 <script language="javascript" type="text/javascript" src="therealestate_abi.js"></script>
-<!--<script src="solidity.js"></script>-->
+<script src="solidity.js"></script>
 </body>
 </html>
 
@@ -243,6 +288,7 @@
 
     $("#market-button").click(function () {
         $("#assets-section").hide();
+        $("#edit-section").hide();
         $("#add-section").hide();
         marketSection();
     });
@@ -280,13 +326,18 @@
     $("#assets-button").click(function () {
         $("#add-section").hide();
         $("#market-section").hide();
+        $("#edit-section").hide();
         $("#assets-section").show();
         $("#assets-items").empty();
+        assetsSection();
+    });
+
+    function assetsSection() {
         // TODO load and add items selling
         assetSellingAddItem(1, "Nom1", "Adress1", "LOL", "description de ouf", 5.6);
         // TODO load and add items
         assetAddItem(2, "Nom1", "Adress1", "LOL", "description de ouf", 5.6);
-    });
+    }
 
     function assetSellingAddItem(id, name, address, image, description, price) {
         var new_item = item_assets_selling.clone();
@@ -298,6 +349,9 @@
         new_item.find(".price").html(price);
         new_item.find(".remove-button").click(function() {
             remove(id);
+        });
+        new_item.find(".edit-button").click(function() {
+            editSection(id, name, address, image, description, price);
         });
         $("#assets-items").append(new_item);
     }
@@ -318,6 +372,9 @@
         new_item.find(".sell-button").click(function() {
             sell(id);
         });
+        new_item.find(".edit-button").click(function() {
+            editSection(id, name, address, image, description, price);
+        });
         $("#assets-items").append(new_item);
     }
 
@@ -333,6 +390,7 @@
     $("#add-button").click(function () {
         $("#assets-section").hide();
         $("#market-section").hide();
+        $("#edit-section").hide();
         $("#add-section").show();
     });
 
@@ -346,6 +404,48 @@
             return;
         }
 
-        // TODO Exec to create token
+        alert("create token action");
+        // TODO make the create token action
+
+        //$("#add-section").hide();
+        //assetsSection();
     });
+
+    /*
+     EDIT SECTION
+     */
+
+    function editSection(id, name, address, image, description, price) {
+        $("#assets-section").hide();
+        $("#market-section").hide();
+        $("#add-section").hide();
+        $("#edit-section").show();
+        $("#edit-edit-id").val(id);
+        $("#edit-name").val(name);
+        $("#edit-address").val(address);
+        $("#edit-image").val(image);
+        $("#edit-description").val(description);
+        $("#edit-price").val(price);
+    }
+
+    $("#edit-asset-button").click(function () {
+        edit();
+    });
+
+    function edit() {
+        if ($("#edit-name").val() == "" || $("#edit-address").val() == "" || $("#edit-image").val() == "" || $("#edit-description").val() == "") {
+            alert("Tous les champs doivent être remplis!");
+            return;
+        }
+        if ($("#edit-price").val() <= 0) {
+            alert("Le prix en ethereum doit être positif");
+            return;
+        }
+
+        alert("edit token action");
+        // TODO exec action for edit
+
+        //$("#edit-section").hide();
+        //assetsSection();
+    }
 </script>
