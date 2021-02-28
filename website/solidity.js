@@ -1,19 +1,18 @@
-var web3js = new Web3(Web3.givenProvider);
+var web3js;
 var theRealEstate;
 var userAccount;
 
 function startApp() {
     var theRealEstateAddress = "0x195Ebee58c65B932FC979E0ff562B38B23b99e8A";
     theRealEstate = new web3js.eth.Contract(theRealEstateABI, theRealEstateAddress);
-    userAccount = web3js.eth.accounts[0];
     $("#txStatus").text("Account : " + userAccount);
     var accountInterval = setInterval(function () {
         // Check if account has changed
         if (web3js.eth.accounts[0] !== userAccount) {
             userAccount = web3js.eth.accounts[0];
             // Call a function to update the UI with the new account
-            getZombiesByOwner(userAccount)
-                .then(displayZombies);
+            getTokensByOwner(userAccount)
+                .then(displayTokens);
         }
     }, 100);
 
@@ -87,16 +86,22 @@ function getTokensOnSaleByOwner(owner) {
     return theRealEstate.methods.getTokensOnSaleByOwner(owner).call()
 }
 
+async function loadMetamask() {
+     userAccount = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    $("#txStatus").text("Account : " + userAccount);
+    console.log("userAccount : " + userAccount)
+}
+
 window.addEventListener('load', function () {
 
     // Checking if Web3 has been injected by the browser (Mist/MetaMask)
     // Modern DApp Browsers
     if (window.ethereum) {
-       web3 = new Web3(window.ethereum);
+       web3js = new Web3(window.ethereum);
        try { 
-          window.ethereum.enable().then(function() {
+            loadMetamask()
               // User has allowed account access to DApp...
-          });
+
        } catch(e) {
           // User has denied account access to DApp...
        }
