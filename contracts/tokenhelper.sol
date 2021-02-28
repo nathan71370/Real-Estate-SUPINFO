@@ -21,6 +21,10 @@ contract TokenHelper is TheRealEstate {
     function changePrice(uint _tokenId, uint16 _price) external onlyOwnerOf(_tokenId) {
         tokens[_tokenId].price = _price;
     }
+
+    function changeDescription(uint _tokenId, uint16 _description) external onlyOwnerOf(_tokenId) {
+        tokens[_tokenId].description = _description;
+    }
     
     function changeImageLink(uint _tokenId, string calldata _newImageLink) external onlyOwnerOf(_tokenId) {
         tokens[_tokenId].imageLink = _newImageLink;

@@ -1,16 +1,16 @@
-//var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
-var web3js;
+var web3js = new Web3(Web3.givenProvider);
 var theRealEstate;
 var userAccount;
 
 function startApp() {
     var theRealEstateAddress = "0x195Ebee58c65B932FC979E0ff562B38B23b99e8A";
     theRealEstate = new web3js.eth.Contract(theRealEstateABI, theRealEstateAddress);
-
+    userAccount = web3js.eth.accounts[0];
+    $("#txStatus").text("Account : " + userAccount);
     var accountInterval = setInterval(function () {
         // Check if account has changed
-        if (window.ethereum.accounts[0] !== userAccount) {
-            userAccount = web3.eth.accounts[0];
+        if (web3js.eth.accounts[0] !== userAccount) {
+            userAccount = web3js.eth.accounts[0];
             // Call a function to update the UI with the new account
             getZombiesByOwner(userAccount)
                 .then(displayZombies);
@@ -90,13 +90,24 @@ function getTokensOnSaleByOwner(owner) {
 window.addEventListener('load', function () {
 
     // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-    if (typeof web3 !== 'undefined') {
-        // Use Mist/MetaMask's provider
-        web3js = new Web3(web3.currentProvider);
-    } else {
-        // Handle the case where the user doesn't have Metamask installed
-        // Probably show them a message prompting them to install Metamask
-        //console.log("Use haven't MetaMask!");
+    // Modern DApp Browsers
+    if (window.ethereum) {
+       web3 = new Web3(window.ethereum);
+       try { 
+          window.ethereum.enable().then(function() {
+              // User has allowed account access to DApp...
+          });
+       } catch(e) {
+          // User has denied account access to DApp...
+       }
+    }
+    // Legacy DApp Browsers
+    else if (window.web3) {
+        web3 = new Web3(web3.currentProvider);
+    }
+    // Non-DApp Browsers
+    else {
+        alert('You have to install MetaMask !');
     }
 
     // Now you can start your app & access web3 freely:

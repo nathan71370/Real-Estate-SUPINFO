@@ -13,11 +13,12 @@ contract TheRealEstate is Owner {
  uint8 commissionPercent = 10;
  
  //Event that is triggered when a new token is created
- event NewToken(uint tokenId, string name, string adress, uint16 price, string imageLink);
+ event NewToken(uint tokenId, string name, string description, string adress, uint16 price, string imageLink);
  
  struct Token{
      string name;
      string adress;
+     string description;
      uint16 price; //not uint8 because we can sell houses for more then 1 million $
      string imageLink;
  }   
@@ -35,12 +36,12 @@ contract TheRealEstate is Owner {
       }
  
  //Function to create a token 
-    function _createToken(string memory _name, string memory _adress, uint16 _price, string memory _imageLink) public {
-        tokens.push(Token(_name, _adress, _price, _imageLink));
+    function _createToken(string memory _name, string memory _adress, string memory description, uint16 _price, string memory _imageLink) public {
+        tokens.push(Token(_name, _adress, _description, _price, _imageLink));
         uint id = tokens.length - 1;
         tokenToOwner[id] = msg.sender;
         ownerTokenCount[msg.sender] = ownerTokenCount[msg.sender].add(1);
-        emit NewToken(id, _name, _adress, _price, _imageLink);
+        emit NewToken(id, _name, _adress, _description, _price, _imageLink);
     }
     
     
