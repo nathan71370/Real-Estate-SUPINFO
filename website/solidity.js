@@ -12,7 +12,7 @@ async function startApp() {
         if (web3js.eth.accounts[0] !== undefined && web3js.eth.accounts[0] !== userAccount[0]) {
             userAccount[0] = web3js.eth.accounts[0];
             // Call a function to update the UI with the new account
-            getTokensByOwner(userAccount)
+            getTokensByOwner(userAccount[0])
                 .then(displayTokens);
         }
     }, 100);
@@ -36,6 +36,7 @@ function displayTokens(ids) {
               <ul>
                 <li>Name: ${token.name}</li>
                 <li>Adress: ${token.adress}</li>
+                <li>Adress: ${token.description}</li>
                 <li>Price: ${token.price}</li>
                 <li>Image link: ${token.imageLink}</li>
               </ul>
@@ -65,8 +66,8 @@ function createToken(name, adress, description, price, imageLink) {
 
 function buyToken(tokenId) {
     $("#txStatus").text("Buying token...");
-    return theRealEstate.methods._transferFrom(tokenId)
-        .send({from: userAccount, value: web3.utils.toWei(getTokenDetails(id).price, "ether")})
+    return theRealEstate.methods._transferFrom(tokenToOwner(tokenId), userAccount,  tokenId)
+        .send({from: userAccount, value: web3js.utils.toWei(getTokenDetails(tokenId).price, "ether")})
         .on("receipt", function (receipt) {
             $("#txStatus").text("You just bought a new house!");
         })
