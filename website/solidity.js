@@ -44,12 +44,12 @@ function displayTokens(ids) {
     }
 }
 
-function createToken(name, adress, price, imageLink) {
+function createToken(name, adress, description, price, imageLink) {
     // This is going to take a while, so update the UI to let the user know
     // the transaction has been sent
     $("#txStatus").text("Adding your token to your account, please wait...");
     // Send the tx to our contract:
-    return theRealEstate.methods._createToken(name, adress, price, imageLink)
+    return theRealEstate.methods._createToken(name, adress, description, price, imageLink)
         .send({from: userAccount[0]})
         .on("receipt", function (receipt) {
             $("#txStatus").text("Successfully added " + name + "!");
