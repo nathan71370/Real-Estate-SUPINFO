@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Real Estate</title>
+
+    <!-- Jquery -->
+    <script language="javascript" type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Boostrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+<header>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <strong>Real Estate Supinfo</strong>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- SECTION NAVIGATION -->
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Real Estate Supinfo</h1>
+                <p class="lead text-muted">Une place pour acheter et vendre des biens! En utilisant la magie de la
+                    blockchain.</p>
+                <p id="market-options" style="display:none;">
+                    <button id="market-button" class="btn btn-primary my-2">Marché</button>
+                    <button id="assets-button" class="btn btn-secondary my-2">Mes biens</button>
+                    <br>
+                    <button id="add-button" class="btn btn-light my-2">Ajouter un bien</button>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOGIN SECTION -->
+    <div class="bg-light p-5" id="login-section">
+        <div class="container text-center">
+            <button class="btn btn-primary btn-lg" id="metamask-button"
+                    style="background-color:#E67E22;border-color:#E67E22;">Connection avec MetaMask
+            </button>
+        </div>
+    </div>
+
+    <!-- ADD SECTION -->
+    <div class="bg-light p-5" id="add-section" style="display:none;">
+        <div class="container">
+
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <form>
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="name">Nom</label>
+                        <input type="text" class="form-control" placeholder="Nom" name="name" id="name"/>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="address">Adresse</label>
+                        <input type="text" class="form-control" placeholder="Adresse" name="address" id="address"/>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="price">Prix (Ethereum)</label>
+                        <input type="number" class="form-control" name="price" id="price" value="0.1" min="0"
+                               step="0.1"/>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="image">Image</label>
+                        <input type="text" class="form-control" placeholder="Lien image" name="image" id="image"/>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="description">Description</label>
+                        <textarea class="form-control" placeholder="Un beau bien, placé idéalement en plein sud..."
+                                  id="description"></textarea>
+                    </div>
+
+                    <div class="form-group row">
+                        <button type="button" id="add-asset-button" class="btn btn-success">Ajouter le bien</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MARKET SECTION -->
+    <div class="album py-5 bg-light" id="market-section" style="display:none;">
+        <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="market-items">
+
+                <!-- ITEM IN MARKET -->
+                <div class="col item-market">
+                    <input type="hidden" value="" class="item-id"/>
+                    <div class="card shadow-sm">
+                        <img class="bd-placeholder-img card-img-top image"
+                             src="http://image.noelshack.com/fichiers/2021/08/7/1614529499-b9723217783z-1-20200415104222-000-g54fsm9qa-1-0-png.jpeg"
+                             height="225" width="auto"/>
+
+                        <div class="card-body">
+                            <h5 class="card-title name">Nom</h5>
+                            <p class="card-text description">Description</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <!--<button type="button" class="btn btn-sm btn-outline-secondary">View</button>-->
+                                    <button type="button" class="btn btn-sm btn-outline-secondary buy-button">Acheter</button>
+                                </div>
+                                <small class="text-muted"><span class="price">0</span> Ethereum</small>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted address">
+                            Adresse
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ASSETS SECTION -->
+    <div class="album py-5 bg-light" id="assets-section" style="display:none;">
+        <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="assets-items">
+
+                <!-- ITEM SELLING -->
+                <div class="col item-assets-selling">
+                    <input type="hidden" value="" class="item-id"/>
+                    <div class="card shadow-sm">
+                        <img class="bd-placeholder-img card-img-top image"
+                             src="http://image.noelshack.com/fichiers/2021/08/7/1614529499-b9723217783z-1-20200415104222-000-g54fsm9qa-1-0-png.jpeg"
+                             height="225" width="auto"/>
+
+                        <div class="card-body">
+                            <h5 class="card-title name">Nom</h5>
+                            <p class="card-text description">Description</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary remove-button">Retirer de la vente</button>
+                                </div>
+                                <small class="text-muted"><span class="price">0</span> Ethereum</small>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted address">
+                            Adresse
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MY ITEM -->
+                <div class="col item-assets">
+                    <input type="hidden" value="" class="item-id"/>
+                    <div class="card shadow-sm">
+                        <img class="bd-placeholder-img card-img-top image"
+                             src="http://image.noelshack.com/fichiers/2021/08/7/1614529499-b9723217783z-1-20200415104222-000-g54fsm9qa-1-0-png.jpeg"
+                             height="225" width="auto"/>
+
+                        <div class="card-body">
+                            <h5 class="card-title name">Nom</h5>
+                            <p class="card-text description">Description</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary sell-button">Vendre</button>
+                                </div>
+                                <small class="text-muted"><span class="price">0</span> Ethereum</small>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted address">
+                            Adresse
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer class="text-muted py-5">
+    <div class="container">
+        <p class="float-end mb-1">
+            <a href="#">Retourner en haut</a>
+        </p>
+        <p class="mb-1">Real Estate Supinfo &copy; Lucas Durand, Nathan Mercier, Alexandre Ayacouty, Théo Rousset</p>
+    </div>
+</footer>
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+
+<!-- Web3 -->
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
+<!-- Solidity -->
+<script language="javascript" type="text/javascript" src="therealestate_abi.js"></script>
+<!--<script src="solidity.js"></script>-->
+</body>
+</html>
+
+<script>
+    var item_market;
+    var item_assets;
+    var item_assets_selling;
+
+    $(document).ready(function () {
+        // Save item dom
+        item_market = $(".item-market").clone();
+        item_assets = $(".item-assets").clone();
+        item_assets_selling = $(".item-assets-selling").clone();
+    });
+
+    /*
+     METAMASK SECTION
+     */
+
+    $("#metamask-button").click(function () {
+        // TODO setup connection with metamask
+        // Fail
+        // Alert
+
+        // Sucess
+        $("#login-section").hide();
+        $("#market-options").show();
+        marketSection();
+    });
+
+    /*
+     MARKET SECTION
+     */
+
+    $("#market-button").click(function () {
+        $("#assets-section").hide();
+        $("#add-section").hide();
+        marketSection();
+    });
+
+    function marketSection() {
+        $("#market-section").show();
+        $("#market-items").empty();
+        // TODO load and add items
+        marketAddItem(3, "Nom1", "Adress1", "LOL", "description de ouf", 5.6);
+    }
+
+    function marketAddItem(id, name, address, image, description, price) {
+        var new_item = item_market.clone();
+        new_item.find(".item-id").html(id);
+        new_item.find(".name").html(name);
+        new_item.find(".address").html(address);
+        new_item.find(".image").html(image);
+        new_item.find(".description").html(description);
+        new_item.find(".price").html(price);
+        new_item.find(".buy-button").click(function() {
+            buy(id);
+        });
+        $("#market-items").append(new_item);
+    }
+
+    function buy(id) {
+        alert("Buy for id: " + id);
+        // TODO buy action
+    }
+
+    /*
+     ASSETS SECTION
+     */
+
+    $("#assets-button").click(function () {
+        $("#add-section").hide();
+        $("#market-section").hide();
+        $("#assets-section").show();
+        $("#assets-items").empty();
+        // TODO load and add items selling
+        assetSellingAddItem(1, "Nom1", "Adress1", "LOL", "description de ouf", 5.6);
+        // TODO load and add items
+        assetAddItem(2, "Nom1", "Adress1", "LOL", "description de ouf", 5.6);
+    });
+
+    function assetSellingAddItem(id, name, address, image, description, price) {
+        var new_item = item_assets_selling.clone();
+        new_item.find(".item-id").html(id);
+        new_item.find(".name").html(name);
+        new_item.find(".address").html(address);
+        new_item.find(".image").html(image);
+        new_item.find(".description").html(description);
+        new_item.find(".price").html(price);
+        new_item.find(".remove-button").click(function() {
+            remove(id);
+        });
+        $("#assets-items").append(new_item);
+    }
+
+    function remove(id) {
+        alert("Action remove id: " + id);
+        // TODO action for remove
+    }
+
+    function assetAddItem(id, name, address, image, description, price) {
+        var new_item = item_assets.clone();
+        new_item.find(".item-id").html(id);
+        new_item.find(".name").html(name);
+        new_item.find(".address").html(address);
+        new_item.find(".image").html(image);
+        new_item.find(".description").html(description);
+        new_item.find(".price").html(price);
+        new_item.find(".sell-button").click(function() {
+            sell(id);
+        });
+        $("#assets-items").append(new_item);
+    }
+
+    function sell(id) {
+        alert("Action sell id: " + id);
+        // TODO action for selling
+    }
+
+    /*
+     ADD SECTION
+     */
+
+    $("#add-button").click(function () {
+        $("#assets-section").hide();
+        $("#market-section").hide();
+        $("#add-section").show();
+    });
+
+    $("#add-asset-button").click(function () {
+        if ($("#name").val() == "" || $("#address").val() == "" || $("#image").val() == "" || $("#description").val() == "") {
+            alert("Tous les champs doivent être remplis!");
+            return;
+        }
+        if ($("#price").val() <= 0) {
+            alert("Le prix en ethereum doit être positif");
+            return;
+        }
+
+        // TODO Exec to create token
+    });
+</script>
