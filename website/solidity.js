@@ -18,8 +18,10 @@ async function startApp() {
     }, 100);
 
     // Start here
-    getTokensByOwner(userAccount[0])
-                .then(displayTokens);
+    var val = getTokensByOwner(userAccount[0]);
+    console.log(val);
+    
+                //.then(displayTokens);
 }
 
 function displayTokens(ids) {
@@ -82,8 +84,6 @@ function tokenToOwner(id) {
 }
 
 function getTokensByOwner(owner) {
-    console.log("owner : "+ owner)
-    console.log("default account : " + web3js.eth.defaultAccount)
     return theRealEstate.methods.getTokensByOwner(owner).call()
 }
 
