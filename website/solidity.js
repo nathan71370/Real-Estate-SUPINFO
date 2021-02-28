@@ -9,8 +9,8 @@ async function startApp() {
     $("#txStatus").text("Account : " + userAccount);
     var accountInterval = setInterval(function () {
         // Check if account has changed
-        if (web3js.eth.accounts[0] !== undefined && web3js.eth.accounts[0] !== userAccount) {
-            userAccount = web3js.eth.accounts[0];
+        if (web3js.eth.accounts[0] !== undefined && web3js.eth.accounts[0] !== userAccount[0]) {
+            userAccount[0] = web3js.eth.accounts[0];
             // Call a function to update the UI with the new account
             getTokensByOwner(userAccount)
                 .then(displayTokens);
@@ -18,7 +18,7 @@ async function startApp() {
     }, 100);
 
     // Start here
-    getTokensByOwner(userAccount)
+    getTokensByOwner(userAccount[0])
                 .then(displayTokens);
 }
 
@@ -48,7 +48,7 @@ function createToken(name, adress, price, imageLink) {
     $("#txStatus").text("Adding your token to your account, please wait...");
     // Send the tx to our contract:
     return theRealEstate.methods._createToken(name, adress, price, imageLink)
-        .send({from: userAccount})
+        .send({from: userAccount[0]})
         .on("receipt", function (receipt) {
             $("#txStatus").text("Successfully added " + name + "!");
             // Transaction was accepted into the blockchain, let's redraw the UI
@@ -82,6 +82,8 @@ function tokenToOwner(id) {
 }
 
 function getTokensByOwner(owner) {
+    console.log("owner : "+ owner)
+    console.log("default account : " + web3js.eth.defaultAccount)
     return theRealEstate.methods.getTokensByOwner(owner).call()
 }
 
@@ -91,8 +93,8 @@ function getTokensOnSaleByOwner(owner) {
 
 async function loadMetamask() {
     userAccount = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    web3js.eth.accounts[0] = userAccount;
-    web3js.eth.defaultAccount = "0x195Ebee58c65B932FC979E0ff562B38B23b99e8A";
+    web3js.eth.accounts[0] = userAccount[0];
+    web3js.eth.defaultAccount = userAccount[0];
     $("#txStatus").text("Account : " + userAccount);
 }
 
