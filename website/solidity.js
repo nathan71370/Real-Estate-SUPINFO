@@ -6,17 +6,22 @@ function startApp() {
     var theRealEstateAddress = "0x195Ebee58c65B932FC979E0ff562B38B23b99e8A";
     theRealEstate = new web3js.eth.Contract(theRealEstateABI, theRealEstateAddress);
     $("#txStatus").text("Account : " + userAccount);
+    console.log("test1");
     var accountInterval = setInterval(function () {
         // Check if account has changed
-        if (web3js.eth.accounts[0] !== userAccount) {
+        if (web3js.eth.accounts[0] !== undefined && web3js.eth.accounts[0] !== userAccount) {
             userAccount = web3js.eth.accounts[0];
             // Call a function to update the UI with the new account
+            console.log("account : " + userAccount);
             getTokensByOwner(userAccount)
                 .then(displayTokens);
         }
     }, 100);
 
     // Start here
+    console.log("account : " + userAccount)
+    getTokensByOwner(userAccount)
+                .then(displayTokens);
 }
 
 function displayTokens(ids) {
@@ -87,9 +92,10 @@ function getTokensOnSaleByOwner(owner) {
 }
 
 async function loadMetamask() {
-     userAccount = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    userAccount = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    web3js.eth.accounts[0] = userAccount;
+    console.log("account caca : " + userAccount);
     $("#txStatus").text("Account : " + userAccount);
-    console.log("userAccount : " + userAccount)
 }
 
 window.addEventListener('load', function () {
