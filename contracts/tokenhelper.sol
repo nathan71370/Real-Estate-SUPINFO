@@ -22,7 +22,7 @@ contract TokenHelper is TheRealEstate {
         tokens[_tokenId].price = _price;
     }
 
-    function changeDescription(uint _tokenId, uint16 _description) external onlyOwnerOf(_tokenId) {
+    function changeDescription(uint _tokenId, string calldata _description) external onlyOwnerOf(_tokenId) {
         tokens[_tokenId].description = _description;
     }
     

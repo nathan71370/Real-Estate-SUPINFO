@@ -28,7 +28,7 @@ contract TheRealEstate is Owner {
     mapping (uint => address) public tokenToOwner;
     mapping (address => uint) ownerTokenCount;
     mapping (uint => address) public tokenOnSaleToOwner;
-    mapping (address => uint) public ownerTokenOnSaleCount
+    mapping (address => uint) public ownerTokenOnSaleCount;
   
       modifier onlyOwnerOf(uint _tokenId) {
         require(msg.sender == tokenToOwner[_tokenId]);
@@ -36,7 +36,7 @@ contract TheRealEstate is Owner {
       }
  
  //Function to create a token 
-    function _createToken(string memory _name, string memory _adress, string memory description, uint16 _price, string memory _imageLink) public {
+    function _createToken(string memory _name, string memory _adress, string memory _description, uint16 _price, string memory _imageLink) public {
         tokens.push(Token(_name, _adress, _description, _price, _imageLink));
         uint id = tokens.length - 1;
         tokenToOwner[id] = msg.sender;
