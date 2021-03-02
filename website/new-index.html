@@ -367,37 +367,35 @@
 
         getTokensOnSaleByOwner(userAccount[0]).then(function(ids) {
             var selling_ids = [];
-            for(id in ids) {
-                selling_ids.push(id);
-            }
+            ids.forEach(id => selling_ids.push(id));
             getTokensByOwner(userAccount[0]).then(function(ids) {
                 var no_selling_ids = [];
-                for(id in ids) {
-                    selling_ids.push(id);
-                }
-                for(id in selling_ids) {
+                ids.forEach(id => no_selling_ids.push(id));
+                selling_ids.forEach(id => {
                     if(no_selling_ids) {
-                        if(no_selling_ids.includes(id)) {
-                            no_selling_ids.remove(id);
+                        for(my_id in no_selling_ids) {
+                            if(selling_ids.includes(no_selling_ids[my_id])) {
+                                no_selling_ids.splice(my_id, 1);
+                            }
                         }
                     }
-                }
+                });
 
-                for(id in selling_ids) {
+                selling_ids.forEach(id => {
                     getTokenDetails(id)
                         .then(function (token) {
                             $(".no-item-assets").hide();
                             assetSellingAddItem(id, token.name, token.adress, token.imageLink, token.description, token.price);
                         });
 
-                }
-                for(id in no_selling_ids) {
+                });
+                no_selling_ids.forEach(id => {
                     getTokenDetails(id)
                         .then(function (token) {
                             $(".no-item-assets").hide();
                             assetAddItem(id, token.name, token.adress, token.imageLink, token.description, token.price);
                         });
-                }
+                });
             });
         });
 
