@@ -373,7 +373,7 @@
                 getTokenDetails(id)
                     .then(function (token) {
                         $(".no-item-assets").hide();
-                        assetSellingAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
+                        assetSellingAddItem(id, token.name, token.adress, token.imageLink, token.description, token.price);
                     });
             }
         });
@@ -384,7 +384,7 @@
                 getTokenDetails(id)
                     .then(function (token) {
                         $(".no-item-assets").hide();
-                        assetAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
+                        assetAddItem(id, token.name, token.adress, token.imageLink, token.description, token.price);
                     });
             }
         });
@@ -430,7 +430,7 @@
     }
 
     function sell(id) {
-        // TODO Check it's work
+        console.log(id);
         putTokenOnSale(id);
     }
 
