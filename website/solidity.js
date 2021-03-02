@@ -71,7 +71,7 @@ function buyToken(tokenId, price) {
         console.log("data : " + data.ETH)
         console.log("price : " + price * data.ETH)
         tokenToOwner(tokenId)
-        return theRealEstate.methods._transferFrom(, userAccount[0],  tokenId)
+        return theRealEstate.methods._transferFrom(userAccount[0],  tokenId)
             .send({from: userAccount[0], value: web3js.utils.toWei((price * data.ETH).toString(), "ether")})
             .on("receipt", function (receipt) {
                 $("#txStatus").text("You just bought a new house!");
