@@ -296,8 +296,19 @@
     function marketSection() {
         $("#market-section").show();
         $("#market-items").empty();
-        // TODO load and add items
-        marketAddItem(3, "Nom 1", "Adresse de ouf 1", "LOL", "description de ouf", 5.6);
+        var count = 0;
+        getAllTokensOnSale(userAccount[0]).then(function(ids) {
+            for(id of ids) {
+                getTokenDetails(id)
+                    .then(function (token) {
+                        marketAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
+                    });
+                count++;
+            }
+        });
+        if(count == 0) {
+            // TODO write no offers
+        }
     }
 
     function marketAddItem(id, name, address, image, description, price) {
@@ -315,8 +326,8 @@
     }
 
     function buy(id) {
-        alert("Buy for id: " + id);
-        // TODO buy action
+        // TODO check it's work
+        removeTokenFromSale(id);
     }
 
     /*
@@ -394,8 +405,8 @@
     }
 
     function sell(id) {
-        alert("Action sell id: " + id);
-        // TODO action for selling
+        // TODO Check it's work
+        putTokenOnSale(id);
     }
 
     /*
