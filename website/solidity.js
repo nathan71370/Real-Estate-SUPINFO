@@ -19,7 +19,6 @@ async function startApp() {
 
     // Start here
     var val = getTokensByOwner(userAccount[0]);
-    console.log(val);
     
                 //.then(displayTokens);
 }
