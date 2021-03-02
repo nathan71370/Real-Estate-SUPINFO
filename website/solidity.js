@@ -4,7 +4,7 @@ var userAccount;
 
 async function startApp() {
     await loadMetamask()
-    var theRealEstateAddress = "0x9bFCbd811f77ca1Cd79EF88857e507Dd26BA0696";
+    var theRealEstateAddress = "0x948f9902d7654BE628BDDe0cA276899f982E812D";
     theRealEstate = new web3js.eth.Contract(theRealEstateABI, theRealEstateAddress);
     $("#txStatus").text("Account : " + userAccount);
     var accountInterval = setInterval(function () {
@@ -77,7 +77,7 @@ function buyToken(tokenId) {
 }
 
 function getTokenDetails(id) {
-    return theRealEstate.methods.tokens(id).call()
+    return theRealEstate.methods.getToken(id).call()
 }
 
 function tokenToOwner(id) {
