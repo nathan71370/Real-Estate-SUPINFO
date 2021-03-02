@@ -4,7 +4,7 @@ var userAccount;
 
 async function startApp() {
     await loadMetamask()
-    var theRealEstateAddress = "0xFdAaB46a1fE3D49B18Cc93e96C4488d72aFdb4Fd";
+    var theRealEstateAddress = "0x0AcBD37c991a1e6f712641E585De809f617A66D0";
     theRealEstate = new web3js.eth.Contract(theRealEstateABI, theRealEstateAddress);
     $("#txStatus").text("Account : " + userAccount);
     var accountInterval = setInterval(function () {
@@ -21,12 +21,6 @@ async function startApp() {
             $("#owner-button").show();
         }
     })
-
-    // Start here
-    var val = getTokensByOwner(userAccount[0]);
-    console.log(val);
-    
-                //.then(displayTokens);
 }
 
 function displayTokens(ids) {
@@ -104,20 +98,16 @@ function getTokensOnSaleByOwner(owner) {
     return theRealEstate.methods.getTokensOnSaleByOwner(owner).call()
 }
 
-function ownerTokenCount(id) {
-    return theRealEstate.methods.getTokensByOwner(owner).call()
-}
-
 function getOwner() {
     return theRealEstate.methods.getOwner().call();
 }
 
 function changeOwner(owner) {
-    return theRealEstate.methods.getOwner().call();
+    return theRealEstate.methods.changeOwner(owner).call();
 }
 
-function changeCommission(owner) {
-    
+function changeCommission(commission) {
+    return theRealEstate.methods.changeCommission(commission).call();
 }
 
 function editToken(tokenId, name, adress, description, price, imageLink) {
