@@ -391,7 +391,7 @@
         });
 
         if(count == 0) {
-            $("#market-items").append(no_item_assets);
+            $("#assets-items").append(no_item_assets);
         }
     }
 
@@ -460,7 +460,6 @@
             return;
         }
 
-        alert("create token action");
         createToken($("#name").val(), $("#address").val(), $("#description").val(), $("#price").val(), $("#image").val());
     });
 
