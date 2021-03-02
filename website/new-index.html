@@ -320,12 +320,12 @@
 
         $("#market-items").append(no_item_market);
 
-        getAllTokensOnSale(userAccount[0]).then(function(ids) {
+        getAllTokensOnSale().then(function(ids) {
             for(id of ids) {
                 getTokenDetails(id)
                     .then(function (token) {
                         $('.no-item-market').hide();
-                        marketAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
+                        marketAddItem(id, token.name, token.adress, token.imageLink, token.description, token.price);
                     });
             }
         });
@@ -365,6 +365,43 @@
     function assetsSection() {
         $("#assets-items").append(no_item_assets);
 
+        getTokensOnSaleByOwner(userAccount[0]).then(function(ids) {
+            var selling_ids = [];
+            for(id in ids) {
+                selling_ids.push(id);
+            }
+            getTokensByOwner(userAccount[0]).then(function(ids) {
+                var no_selling_ids = [];
+                for(id in ids) {
+                    selling_ids.push(id);
+                }
+                for(id in selling_ids) {
+                    if(no_selling_ids) {
+                        if(no_selling_ids.includes(id)) {
+                            no_selling_ids.remove(id);
+                        }
+                    }
+                }
+
+                for(id in selling_ids) {
+                    getTokenDetails(id)
+                        .then(function (token) {
+                            $(".no-item-assets").hide();
+                            assetSellingAddItem(id, token.name, token.adress, token.imageLink, token.description, token.price);
+                        });
+
+                }
+                for(id in no_selling_ids) {
+                    getTokenDetails(id)
+                        .then(function (token) {
+                            $(".no-item-assets").hide();
+                            assetAddItem(id, token.name, token.adress, token.imageLink, token.description, token.price);
+                        });
+                }
+            });
+        });
+
+        /*
         // Selling
         getTokensOnSaleByOwner(userAccount[0]).then(function(ids) {
             for(id of ids) {
@@ -386,6 +423,7 @@
                     });
             }
         });
+        */
     }
 
     function assetSellingAddItem(id, name, address, image, description, price) {
