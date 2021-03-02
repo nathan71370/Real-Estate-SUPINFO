@@ -344,6 +344,8 @@
     });
 
     function assetsSection() {
+        var count = 0;
+
         // Selling
         getTokensOnSaleByOwner(userAccount[0]).then(function(ids) {
             for(id of ids) {
@@ -351,6 +353,7 @@
                     .then(function (token) {
                         assetSellingAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
                     });
+                count++;
             }
         });
 
@@ -361,8 +364,13 @@
                     .then(function (token) {
                         assetAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
                     });
+                count++;
             }
         });
+
+        if(count == 0) {
+            // TODO write no token present
+        }
     }
 
     function assetSellingAddItem(id, name, address, image, description, price) {
