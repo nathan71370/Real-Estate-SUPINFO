@@ -318,19 +318,19 @@
     function marketSection() {
         $("#market-section").show();
         $("#market-items").empty();
-        var count = 0;
+
+        $("#market-items").append(no_item_market);
+
         getAllTokensOnSale(userAccount[0]).then(function(ids) {
             for(id of ids) {
                 getTokenDetails(id)
                     .then(function (token) {
+                        $('.no-item-market').hide();
                         marketAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
                     });
                 count++;
             }
         });
-        if(count == 0) {
-            $("#market-items").append(no_item_market);
-        }
     }
 
     function marketAddItem(id, name, address, image, description, price) {
@@ -342,14 +342,13 @@
         new_item.find(".description").html(description);
         new_item.find(".price").html(price);
         new_item.find(".buy-button").click(function() {
-            buy(id);
+            buy(id, price);
         });
         $("#market-items").append(new_item);
     }
 
     function buy(id) {
-        // TODO check it's work
-        buyToken(id);
+        buyToken(id, price);
     }
 
     /*
@@ -366,16 +365,16 @@
     });
 
     function assetsSection() {
-        var count = 0;
+        $("#assets-items").append(no_item_assets);
 
         // Selling
         getTokensOnSaleByOwner(userAccount[0]).then(function(ids) {
             for(id of ids) {
                 getTokenDetails(id)
                     .then(function (token) {
+                        $(".no-item-assets").hide();
                         assetSellingAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
                     });
-                count++;
             }
         });
 
@@ -384,15 +383,11 @@
             for(id of ids) {
                 getTokenDetails(id)
                     .then(function (token) {
+                        $(".no-item-assets").hide();
                         assetAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
                     });
-                count++;
             }
         });
-
-        if(count == 0) {
-            $("#assets-items").append(no_item_assets);
-        }
     }
 
     function assetSellingAddItem(id, name, address, image, description, price) {
