@@ -4,7 +4,7 @@ var userAccount;
 
 async function startApp() {
     await loadMetamask()
-    var theRealEstateAddress = "0x776154D455E593D3cB6AE01d884465C8fa4fd46C";
+    var theRealEstateAddress = "0x1fdF1933729B1DF6f4B04F307d4b4bBBa5ec8B00";
     theRealEstate = new web3js.eth.Contract(theRealEstateABI, theRealEstateAddress);
     $("#txStatus").text("Account : " + userAccount);
     var accountInterval = setInterval(function () {
@@ -112,6 +112,12 @@ function changeCommission(owner) {
 }
 
 function editToken(tokenId, name, adress, description, price, imageLink) {
+    console.log("token id : " + tokenId)
+    console.log("name : " + name)
+    console.log("adress : " + adress)
+    console.log("description : " + description)
+    console.log("price : " + price)
+    console.log("imageLink : " + imageLink)
     return theRealEstate.methods.editToken(tokenId, name, adress, description, price, imageLink)
         .send({from: userAccount[0]})
         .on("receipt", function (receipt) {
