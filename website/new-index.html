@@ -166,6 +166,16 @@
                     </div>
                 </div>
 
+                <!-- WHEN NO ITEM -->
+                <div class="col no-item-market mx-auto">
+                    <input type="hidden" value="" class="item-id"/>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title name">Désolé aucune offre n'est disponible pour le moment!</h5>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -226,6 +236,16 @@
                     </div>
                 </div>
 
+                <!-- NO ITEM -->
+                <div class="col no-item-assets mx-auto">
+                    <input type="hidden" value="" class="item-id"/>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title name">Vous n'avez pas encore d'item</h5>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -263,7 +283,9 @@
     $(document).ready(function () {
         // Save item dom
         item_market = $(".item-market").clone();
+        no_item_market = $(".no-item-market").clone();
         item_assets = $(".item-assets").clone();
+        no_item_assets = $(".no-item-assets").clone();
         item_assets_selling = $(".item-assets-selling").clone();
     });
 
@@ -307,7 +329,7 @@
             }
         });
         if(count == 0) {
-            // TODO write no offers
+            $("#market-items").append(no_item_market);
         }
     }
 
@@ -369,7 +391,7 @@
         });
 
         if(count == 0) {
-            // TODO write no token present
+            $("#market-items").append(no_item_assets);
         }
     }
 
