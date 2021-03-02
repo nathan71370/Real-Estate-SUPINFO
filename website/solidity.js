@@ -92,8 +92,8 @@ function getTokensOnSaleByOwner(owner) {
     return theRealEstate.methods.getTokensOnSaleByOwner(owner).call()
 }
 
-function editToken(name, adress, description, price, imageLink) {
-    return theRealEstate.methods.editToken(name, adress, description, price, imageLink)
+function editToken(tokenId, name, adress, description, price, imageLink) {
+    return theRealEstate.methods.editToken(tokenId, name, adress, description, price, imageLink)
         .send({from: userAccount[0]})
         .on("receipt", function (receipt) {
             $("#txStatus").text("Successfully edited " + name + "!");
