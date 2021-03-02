@@ -92,6 +92,46 @@ function getTokensOnSaleByOwner(owner) {
     return theRealEstate.methods.getTokensOnSaleByOwner(owner).call()
 }
 
+function editToken(name, adress, description, price, imageLink) {
+    return theRealEstate.methods.editToken(name, adress, description, price, imageLink)
+        .send({from: userAccount[0]})
+        .on("receipt", function (receipt) {
+            $("#txStatus").text("Successfully edited " + name + "!");
+        })
+        .on("error", function (error) {
+            // Do something to alert the user their transaction has failed
+            $("#txStatus").text(error);
+        });
+}
+
+function putTokenOnSale(tokenId){
+    return theRealEstate.methods.putTokenToSale(tokenId)
+        .send({from: userAccount[0]})
+        .on("receipt", function (receipt) {
+            $("#txStatus").text("Successfully added " + name + " to sell!");
+        })
+        .on("error", function (error) {
+            // Do something to alert the user their transaction has failed
+            $("#txStatus").text(error);
+        });
+}
+
+function removeTokenFromSale(tokenId){
+    return theRealEstate.methods.removeTokenFromSale(tokenId)
+        .send({from: userAccount[0]})
+        .on("receipt", function (receipt) {
+            $("#txStatus").text("Successfully removed " + name + " to sell!");
+        })
+        .on("error", function (error) {
+            // Do something to alert the user their transaction has failed
+            $("#txStatus").text(error);
+        });
+}
+
+function getAllTokensOnSale() {
+    return theRealEstate.methods.getAllTokensOnSale().call()
+}
+
 async function loadMetamask() {
     userAccount = await window.ethereum.request({ method: 'eth_requestAccounts' });
     web3js.eth.accounts[0] = userAccount[0];
