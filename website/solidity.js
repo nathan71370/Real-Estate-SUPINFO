@@ -4,7 +4,7 @@ var userAccount;
 
 async function startApp() {
     await loadMetamask()
-    var theRealEstateAddress = "0x948f9902d7654BE628BDDe0cA276899f982E812D";
+    var theRealEstateAddress = "0x0173Cc897eF896a4EF7E89969Eb0E8af0DB19397";
     theRealEstate = new web3js.eth.Contract(theRealEstateABI, theRealEstateAddress);
     $("#txStatus").text("Account : " + userAccount);
     var accountInterval = setInterval(function () {
@@ -66,14 +66,17 @@ function createToken(name, adress, description, price, imageLink) {
 
 function buyToken(tokenId) {
     $("#txStatus").text("Buying token...");
-    return theRealEstate.methods._transferFrom(tokenToOwner(tokenId), userAccount,  tokenId)
-        .send({from: userAccount, value: web3js.utils.toWei(getTokenDetails(tokenId).price, "ether")})
-        .on("receipt", function (receipt) {
-            $("#txStatus").text("You just bought a new house!");
-        })
-        .on("error", function (error) {
-            $("#txStatus").text(error);
-        });
+    $.getJSON('https://min-api.cryptocompare.com/data/price?fsym=EUR&tsyms=ETH', function(data) {
+        return theRealEstate.methods._transferFrom(tokenToOwner(tokenId), userAccount,  tokenId)
+            .send({from: userAccount, value: web3js.utils.toWei(getTokenDetails(tokenId).price * data, "ether")})
+            .on("receipt", function (receipt) {
+                $("#txStatus").text("You just bought a new house!");
+            })
+            .on("error", function (error) {
+                $("#txStatus").text(error);
+            });
+                // JSON result in `data` variable
+    });
 }
 
 function getTokenDetails(id) {

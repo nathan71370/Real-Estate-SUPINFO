@@ -425,6 +425,44 @@ var theRealEstateABI = [
                 "internalType": "uint256",
                 "name": "_tokenId",
                 "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_newName",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_newAdress",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_description",
+                "type": "string"
+            },
+            {
+                "internalType": "uint16",
+                "name": "_price",
+                "type": "uint16"
+            },
+            {
+                "internalType": "string",
+                "name": "_newImageLink",
+                "type": "string"
+            }
+        ],
+        "name": "editToken",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
             }
         ],
         "name": "getAdress",
@@ -720,11 +758,6 @@ var theRealEstateABI = [
     },
     {
         "inputs": [
-            {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-            },
             {
                 "internalType": "uint256",
                 "name": "_tokenId",
