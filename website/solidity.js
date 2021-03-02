@@ -4,7 +4,7 @@ var userAccount;
 
 async function startApp() {
     await loadMetamask()
-    var theRealEstateAddress = "0x0173Cc897eF896a4EF7E89969Eb0E8af0DB19397";
+    var theRealEstateAddress = "0x776154D455E593D3cB6AE01d884465C8fa4fd46C";
     theRealEstate = new web3js.eth.Contract(theRealEstateABI, theRealEstateAddress);
     $("#txStatus").text("Account : " + userAccount);
     var accountInterval = setInterval(function () {
@@ -19,6 +19,7 @@ async function startApp() {
 
     // Start here
     var val = getTokensByOwner(userAccount[0]);
+    console.log(val);
     
                 //.then(displayTokens);
 }
@@ -63,11 +64,15 @@ function createToken(name, adress, description, price, imageLink) {
 }
 
 
-function buyToken(tokenId) {
+function buyToken(tokenId, price) {
     $("#txStatus").text("Buying token...");
     $.getJSON('https://min-api.cryptocompare.com/data/price?fsym=EUR&tsyms=ETH', function(data) {
-        return theRealEstate.methods._transferFrom(tokenToOwner(tokenId), userAccount,  tokenId)
-            .send({from: userAccount, value: web3js.utils.toWei(getTokenDetails(tokenId).price * data, "ether")})
+        console.log("data : " + price)
+        console.log("data : " + data.ETH)
+        console.log("price : " + price * data.ETH)
+        tokenToOwner(tokenId)
+        return theRealEstate.methods._transferFrom(, userAccount[0],  tokenId)
+            .send({from: userAccount[0], value: web3js.utils.toWei((price * data.ETH).toString(), "ether")})
             .on("receipt", function (receipt) {
                 $("#txStatus").text("You just bought a new house!");
             })
@@ -92,6 +97,18 @@ function getTokensByOwner(owner) {
 
 function getTokensOnSaleByOwner(owner) {
     return theRealEstate.methods.getTokensOnSaleByOwner(owner).call()
+}
+
+function getOwner(owner) {
+    return theRealEstate.methods.getOwner().call();
+}
+
+function changeOwner(owner) {
+    return theRealEstate.methods.getOwner().call();
+}
+
+function changeCommission(owner) {
+
 }
 
 function editToken(tokenId, name, adress, description, price, imageLink) {
