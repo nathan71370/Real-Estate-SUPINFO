@@ -4,7 +4,7 @@ var userAccount;
 
 async function startApp() {
     await loadMetamask()
-    var theRealEstateAddress = "0x8aDCe48b0a8b1Df39e05F5015A90bE660Ac36d80";
+    var theRealEstateAddress = "0x44B009db2B670EA2e13877990310BAb8c5dB7a4E";
     theRealEstate = new web3js.eth.Contract(theRealEstateABI, theRealEstateAddress);
     $("#txStatus").text("Account : " + userAccount);
     var accountInterval = setInterval(function () {
