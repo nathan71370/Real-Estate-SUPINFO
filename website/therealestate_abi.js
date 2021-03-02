@@ -1,4 +1,4 @@
-var theRealEstateABI[
+var theRealEstateABI = [
     {
         "inputs": [],
         "stateMutability": "nonpayable",
