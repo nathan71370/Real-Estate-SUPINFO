@@ -35,6 +35,7 @@
                     <button id="market-button" class="btn btn-primary my-2">Marché</button>
                     <button id="assets-button" class="btn btn-secondary my-2">Mes biens</button>
                     <button id="add-button" class="btn btn-success my-2">Ajouter un bien</button>
+                    <button id="owner-button" class="btn btn-danger my-2" style="display:none;">Changer propriétaire</button>
                 </p>
             </div>
         </div>
@@ -127,6 +128,26 @@
 
                     <div class="form-group row">
                         <button type="button" id="edit-asset-button" class="btn btn-success">Modifier le bien</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- EDIT SECTION -->
+    <div class="bg-light p-5" id="owner-section" style="display:none;">
+        <div class="container">
+
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <form>
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" for="owner-address">Image</label>
+                        <input type="text" class="form-control" placeholder="Lien image" name="image" id="owner-address"/>
+                    </div>
+
+                    <div class="form-group row">
+                        <button type="button" id="owner-change-button" class="btn btn-success">Changer le propriétaire</button>
                     </div>
                 </form>
             </div>
@@ -311,6 +332,7 @@
         $("#assets-section").hide();
         $("#edit-section").hide();
         $("#add-section").hide();
+        $("#owner-section").hide();
         marketSection();
     });
 
@@ -354,6 +376,7 @@
      */
 
     $("#assets-button").click(function () {
+        $("#owner-section").hide();
         $("#add-section").hide();
         $("#market-section").hide();
         $("#edit-section").hide();
@@ -472,6 +495,7 @@
      */
 
     $("#add-button").click(function () {
+        $("#owner-section").hide();
         $("#assets-section").hide();
         $("#market-section").hide();
         $("#edit-section").hide();
@@ -496,10 +520,12 @@
      */
 
     function editSection(id, name, address, image, description, price) {
+        $("#owner-section").hide();
         $("#assets-section").hide();
         $("#market-section").hide();
         $("#add-section").hide();
         $("#edit-section").show();
+
         $("#edit-id").val(id);
         $("#edit-name").val(name);
         $("#edit-address").val(address);
@@ -524,4 +550,24 @@
 
         editToken($("#edit-id").val(), $("#edit-name").val(), $("#edit-address").val(), $("#edit-description").val(), $("#edit-price").val(), $("#edit-image").val())
     }
+
+    /*
+     OWNER
+     */
+    $("#owner-button").click(function () {
+        $("#owner-section").show();
+        $("#assets-section").hide();
+        $("#market-section").hide();
+        $("#add-section").hide();
+        $("#edit-section").hide();
+    });
+
+    $("#owner-change-button").click(function () {
+        if ($("#owner-address").val() == "") {
+            alert("Tous les champs doivent être remplis!");
+            return;
+        }
+
+        changeOwner($("#owner-address").val());
+    });
 </script>

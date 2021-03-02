@@ -16,6 +16,11 @@ async function startApp() {
                 .then(displayTokens);
         }
     }, 100);
+    getOwner().then(function(address) {
+        if(address == userAccount[0]) {
+            $("#owner-button").show();
+        }
+    })
 
     // Start here
     var val = getTokensByOwner(userAccount[0]);
