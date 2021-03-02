@@ -97,7 +97,7 @@
 
             <div class="col-lg-6 col-md-8 mx-auto">
                 <form>
-                    <input type="hidden" value="" class="edit-id" />
+                    <input type="hidden" value="" id="edit-id" />
                     <div class="form-group mb-3">
                         <label class="form-control-label" for="edit-name">Nom</label>
                         <input type="text" class="form-control" placeholder="Nom" name="name" id="edit-name"/>
@@ -500,7 +500,7 @@
         $("#market-section").hide();
         $("#add-section").hide();
         $("#edit-section").show();
-        $("#edit-edit-id").val(id);
+        $("#edit-id").val(id);
         $("#edit-name").val(name);
         $("#edit-address").val(address);
         $("#edit-image").val(image);
