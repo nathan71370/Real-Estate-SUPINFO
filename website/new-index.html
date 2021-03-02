@@ -327,7 +327,7 @@
 
     function buy(id) {
         // TODO check it's work
-        removeTokenFromSale(id);
+        buyToken(id);
     }
 
     /*
@@ -391,8 +391,8 @@
     }
 
     function remove(id) {
-        alert("Action remove id: " + id);
-        // TODO action for remove
+        // TODO check it's good
+        removeTokenFromSale(id);
     }
 
     function assetAddItem(id, name, address, image, description, price) {
