@@ -67,8 +67,8 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label class="form-control-label" for="price">Prix (Ethereum)</label>
-                        <input type="number" class="form-control" name="price" id="price" value="0.1" min="0"
+                        <label class="form-control-label" for="price">Prix (Euro)</label>
+                        <input type="number" class="form-control" name="price" id="price" value="1" min="0"
                                step="0.1"/>
                     </div>
 
@@ -110,8 +110,8 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label class="form-control-label" for="edit-price">Prix (Ethereum)</label>
-                        <input type="number" class="form-control" name="price" id="edit-price" value="0.1" min="0"
+                        <label class="form-control-label" for="edit-price">Prix (Euro)</label>
+                        <input type="number" class="form-control" name="price" id="edit-price" value="1" min="0"
                                step="0.1"/>
                     </div>
 
@@ -157,7 +157,7 @@
                                     <!--<button type="button" class="btn btn-sm btn-outline-secondary">View</button>-->
                                     <button type="button" class="btn btn-sm btn-outline-secondary buy-button">Acheter</button>
                                 </div>
-                                <small class="text-muted"><span class="price">0</span> Ethereum</small>
+                                <small class="text-muted"><span class="price">0</span> Euro</small>
                             </div>
                         </div>
                         <div class="card-footer text-muted address">
@@ -297,7 +297,7 @@
         $("#market-section").show();
         $("#market-items").empty();
         // TODO load and add items
-        marketAddItem(3, "Nom1", "Adress1", "LOL", "description de ouf", 5.6);
+        marketAddItem(3, "Nom 1", "Adresse de ouf 1", "LOL", "description de ouf", 5.6);
     }
 
     function marketAddItem(id, name, address, image, description, price) {
@@ -333,9 +333,25 @@
     });
 
     function assetsSection() {
-        // TODO load and add items selling
-        assetSellingAddItem(1, "Nom1", "Adress1", "LOL", "description de ouf", 5.6);
-        // TODO load and add items
+        // Selling
+        getTokensOnSaleByOwner(userAccount[0]).then(function(ids) {
+            for(id of ids) {
+                getTokenDetails(id)
+                    .then(function (token) {
+                        assetSellingAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
+                    });
+            }
+        });
+
+        // Just own
+        getTokensByOwner(userAccount[0]).then(function(ids) {
+            for(id of ids) {
+                getTokenDetails(id)
+                    .then(function (token) {
+                        assetAddItem(2, token.name, token.adress, token.imageLink, token.description, token.price);
+                    });
+            }
+        });
         assetAddItem(2, "Nom1", "Adress1", "LOL", "description de ouf", 5.6);
     }
 
@@ -400,7 +416,7 @@
             return;
         }
         if ($("#price").val() <= 0) {
-            alert("Le prix en ethereum doit être positif");
+            alert("Le prix doit être positif");
             return;
         }
 
@@ -439,7 +455,7 @@
             return;
         }
         if ($("#edit-price").val() <= 0) {
-            alert("Le prix en ethereum doit être positif");
+            alert("Le prix doit être positif");
             return;
         }
 
