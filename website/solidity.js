@@ -17,7 +17,7 @@ async function startApp() {
         }
     }, 100);
     getOwner().then(function(address) {
-        if(address.toUpperCase() == userAccount[0].toUpperCase()) {
+        if(address == userAccount[0]) {
             $("#owner-button").show();
         }
     })
