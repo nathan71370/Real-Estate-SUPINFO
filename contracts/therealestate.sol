@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity >=0.7.0;
+pragma abicoder v2;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-//import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "./owner.sol";
+//import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol";
 
 
 /// @title A contract to sell houses via token ERC-721
-contract TheRealEstate is Ownable {
+contract TheRealEstate is Owner {
 
  using SafeMath for uint256;
  
@@ -24,9 +26,11 @@ contract TheRealEstate is Ownable {
  }   
  
  Token[] tokens;
+ uint[] tokensOnSale;
+
  
     mapping (uint => address) public tokenToOwner;
-    mapping (address => uint) ownerTokenCount;
+    mapping (address => uint) public ownerTokenCount;
     mapping (uint => address) public tokenOnSaleToOwner;
     mapping (address => uint) public ownerTokenOnSaleCount;
   
@@ -44,6 +48,12 @@ contract TheRealEstate is Ownable {
         emit NewToken(id, _name, _adress, _description, _price, _imageLink);
     }
     
+    function getToken(uint _tokenId) external view returns(Token memory) {
+        return tokens[_tokenId];
+    }
     
+    function getAllTokens() external view returns (Token[] memory) {
+        return tokens;
+    }
  
 }
